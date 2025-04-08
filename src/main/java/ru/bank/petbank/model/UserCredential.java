@@ -8,10 +8,11 @@ import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "\"user_Credential\"")
+@Table(name = "\"user_credential\"")
 //@Builder
 
 public class UserCredential {
@@ -32,6 +33,9 @@ public class UserCredential {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @Column(name = "userid", unique = true, nullable = false)
+    private Long userid;
+
 //    @OneToOne(mappedBy = "userCredential", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 //    private UserInfo userInfo;
 
@@ -43,6 +47,7 @@ public class UserCredential {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.userid = UUID.randomUUID().getMostSignificantBits();
     }
 
     public UserCredential(){}

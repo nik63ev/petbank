@@ -1,13 +1,10 @@
 package test;
 
-import org.apache.catalina.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import ru.bank.petbank.model.UserCredential;
 import ru.bank.petbank.model.UserSession;
-
-import java.time.LocalDateTime;
 
 public class Hibernate_one_to_many_BiDirectional {
     public static void main(String[] args) {

@@ -18,9 +18,9 @@ public class UserCredentialController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserCredential> registerUser(@Validated @RequestBody UserCredential userCredential) {
-        UserCredential registeredUserCredential = userCredentialService.registerUser(userCredential);
-        return ResponseEntity.ok(registeredUserCredential);
+    public ResponseEntity<RegisterResponse> registerUser(@Validated @RequestBody RegisterRequest registerDTO) {
+        RegisterResponse registerResponse = userCredentialService.registerUser(registerDTO);
+        return ResponseEntity.ok(registerResponse);
     }
 
     @GetMapping("/{username}")

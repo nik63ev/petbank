@@ -20,18 +20,19 @@ public class UserCredentialService {
     }
 
     @Transactional
-    public RegisterResponse registerUser(RegisterRequest registerDTO) {
-        if (userCredentialRepository.existsByUsername(registerDTO.getUsername())) {
+    public RegisterResponse registerUser(RegisterRequest registerRequest) {
+        if (userCredentialRepository.existsByUsername(registerRequest.getUsername())) {
             throw new RegisterException("Username is already taken");
         }
 
-        if (userCredentialRepository.existsByEmail(registerDTO.getEmail())) {
+        if (userCredentialRepository.existsByEmail(registerRequest.getEmail())) {
             throw new RegisterException("Email is already in use");
         }
 
         // В реальном приложении здесь нужно хэшировать пароль!
-        UserCredential userCredential = new UserCredential(registerDTO.getUsername(), registerDTO.getPassword(),
-                registerDTO.getEmail());
+        UserCredential userCredential = new UserCredential(registerRequest.getUsername(),
+                                                            registerRequest.getPassword(),
+                                                            registerRequest.getEmail());
         userCredentialRepository.save(userCredential);
         RegisterResponse registerResponse = new RegisterResponse();
         registerResponse.setStatus(new Status());

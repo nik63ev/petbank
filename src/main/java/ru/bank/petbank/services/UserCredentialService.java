@@ -10,8 +10,11 @@ import ru.bank.petbank.model.UserCredential;
 import ru.bank.petbank.repository.UserCredentialRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class UserCredentialService {
+
     private final UserCredentialRepository userCredentialRepository;
 
     @Autowired
@@ -29,7 +32,7 @@ public class UserCredentialService {
             throw new RegisterException("Email is already in use");
         }
 
-        // В реальном приложении здесь нужно хэшировать пароль!
+        // Здесь нужно хэшировать пароль!
         UserCredential userCredential = new UserCredential(registerRequest.getUsername(),
                                                             registerRequest.getPassword(),
                                                             registerRequest.getEmail());
@@ -40,6 +43,11 @@ public class UserCredentialService {
         registerResponse.getStatus().setCode(0);
         registerResponse.setUserId(userCredential.getUserid());
         return registerResponse;
+    }
+
+    @Transactional
+    public UserCredential updateUser(String userName, UserCredential updatedUserCredential) {
+        return userCredentialRepository.save(updatedUserCredential);
     }
 
     public UserCredential getUserByUsername(String username) {

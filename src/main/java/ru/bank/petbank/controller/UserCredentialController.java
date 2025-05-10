@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.bank.petbank.exception.RegisterException;
 import ru.bank.petbank.model.UserCredential;
 import ru.bank.petbank.services.UserCredentialService;
 
 @RestController
-@RequestMapping("/api/credential")
+@RequestMapping("/api")
 public class UserCredentialController {
     private final UserCredentialService userCredentialService;
 
@@ -17,15 +18,28 @@ public class UserCredentialController {
         this.userCredentialService = userCredentialService;
     }
 
-    @PostMapping("/register")
+    @GetMapping("/credential/{username}")
+    public ResponseEntity<UserCredential> getUser(@PathVariable String username) {
+        UserCredential userCredential = userCredentialService.getUserByUsername(username);
+        return ResponseEntity.ok(userCredential);
+    }
+
+    @PostMapping("/credential/register")
     public ResponseEntity<RegisterResponse> registerUser(@Validated @RequestBody RegisterRequest registerDTO) {
         RegisterResponse registerResponse = userCredentialService.registerUser(registerDTO);
         return ResponseEntity.ok(registerResponse);
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<UserCredential> getUser(@PathVariable String username) {
+    //        RegisterResponse registerResponse = userCredentialService.updateUser(userCredential);
+    @PutMapping("/credential/{username}")
+    public ResponseEntity<UserCredential> updateUser(@PathVariable String username,
+                                                     @RequestBody RegisterRequest updateDTO) {
+
         UserCredential userCredential = userCredentialService.getUserByUsername(username);
-        return ResponseEntity.ok(userCredential);
+        userCredential.setPassword(updateDTO.getPassword());
+        userCredential.setEmail(updateDTO.getEmail());
+        UserCredential updateUser = userCredentialService.updateUser(username, userCredential);
+        return ResponseEntity.ok(updateUser);
     }
+
 }

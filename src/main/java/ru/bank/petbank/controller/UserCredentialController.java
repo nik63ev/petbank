@@ -42,4 +42,11 @@ public class UserCredentialController {
         return ResponseEntity.ok(updateUser);
     }
 
+    @DeleteMapping("/credential/{username}")
+    public ResponseEntity<UserCredential> deleteUser(@PathVariable String username) {
+        UserCredential userCredential = userCredentialService.getUserByUsername(username);
+        userCredential = userCredentialService.deleteUser(userCredential.getUsername());
+        return ResponseEntity.ok(userCredential);
+    }
+
 }

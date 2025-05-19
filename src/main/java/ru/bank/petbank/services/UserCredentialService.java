@@ -15,11 +15,19 @@ import java.util.Optional;
 @Service
 public class UserCredentialService {
 
+    @Autowired
     private final UserCredentialRepository userCredentialRepository;
 
     @Autowired
     public UserCredentialService(UserCredentialRepository userCredentialRepository) {
         this.userCredentialRepository = userCredentialRepository;
+    }
+
+    @Transactional
+    public UserCredential getUserByUsername(String username) {
+
+        return userCredentialRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Transactional
@@ -50,9 +58,13 @@ public class UserCredentialService {
         return userCredentialRepository.save(updatedUserCredential);
     }
 
-    public UserCredential getUserByUsername(String username) {
-
-        return userCredentialRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    @Transactional
+    public UserCredential deleteUser(String userName) {
+        Optional<UserCredential> userCredential = userCredentialRepository.findByUsername(userName);
+        if (userCredential.isPresent()) {
+            userCredentialRepository.delete(userCredential.get());
+        }
+        return userCredential.get();
     }
+
 }

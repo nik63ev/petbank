@@ -6,9 +6,13 @@ import lombok.Generated;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+
 @Data
 @Entity
-@Table(name = "\"user_Information\"")
+@Table(name = "\"user_information\"")
 //@Builder
 public class UserInfo {
     @Id
@@ -23,32 +27,49 @@ public class UserInfo {
     @Column(name = "lastname", nullable = false, length = 100)
     private String lastName;
     @Column(name = "date_of_birth", nullable = false)
-    private LocalDate dateOfBirth;
+    private String dateOfBirth; //(dd.MM.yyyy)
 
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_credential_id")
+//    private UserCredential userCredential;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_credential_id")
-    private UserCredential userCredential;
+    @Column(name = "age")
+    private Integer age;
 
-//    private Integer age;
-//    private Gender gender;
-//    private String phone;
-//    private String email;
+    @Column(name = "gender", nullable = false)
+    private Gender gender;
 
-    public UserInfo(String surName, String name, String lastName, LocalDate dateOfBirth) {
+    @Column(name = "phone", nullable = false)
+    private String phone;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "userInfoId", unique = true, nullable = false)
+    private Long userInfoId;
+
+    public UserInfo(String surName, String name, String lastName, String dateOfBirth, Gender gender
+                    , String phone, String email) {
         this.surName = surName;
         this.name = name;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
+        this.age = solveAge(dateOfBirth);
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;
+        this.userInfoId = UUID.randomUUID().getMostSignificantBits();
     }
 
-    @Override
-    public String toString() {
-        Long var10000 = this.getId();
-        return "UserInfo(id=" + var10000 + ", surName=" + this.getSurName() + ", name=" + this.getName() + ", lastName=" + this.getLastName() + ", dateOfBirth=" + this.getDateOfBirth() + ")";
+    private Integer solveAge(String dateOfBirth) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate today = LocalDate.now();
+        today = LocalDate.parse(today.format(formatter), formatter);
+        LocalDate birthday = LocalDate.parse(dateOfBirth, formatter);
+        Period period = Period.between(birthday, today);
+        return period.getYears();
     }
 
     public UserInfo() {
     }
-
 }

@@ -19,25 +19,31 @@ public class UserInfoController {
         this.userInfoService = userInfoService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{userInfoId}")
     public ResponseEntity<UserInfo> getUserInfo(@PathVariable Long userInfoId) {
         UserInfo userInfo = userInfoService.getUserInfo(userInfoId);
         return ResponseEntity.ok(userInfo);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserInfo> createUserInfo(@Validated @RequestBody CreateInfoRequest createInfoDTO) {
+    public ResponseEntity<CreateInfoResponse> createUserInfo(@Validated @RequestBody CreateInfoRequest createInfoDTO) {
 
-        UserInfo createUserInfo = userInfoService.createUserInfo(createInfoDTO);
-        System.out.println(createUserInfo);
-        return ResponseEntity.ok(createUserInfo);
+        CreateInfoResponse createUserInfoResponse = userInfoService.createUserInfo(createInfoDTO);
+        return ResponseEntity.ok(createUserInfoResponse);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserInfo(@PathVariable Long userInfoId) {
+    @PutMapping("/{userInfoId}")
+    public ResponseEntity<CreateInfoResponse> updateUserInfo(@PathVariable Long userInfoId
+            , @Validated @RequestBody CreateInfoRequest createInfoDTO) {
+        CreateInfoResponse createUserInfoResponse = userInfoService.updateUserInfo(userInfoId, createInfoDTO);
+        return ResponseEntity.ok(createUserInfoResponse);
+    }
+
+    @DeleteMapping("/{userInfoId}")
+    public ResponseEntity<UserInfo> deleteUserInfo(@PathVariable Long userInfoId) {
         UserInfo userInfo = userInfoService.getUserInfo(userInfoId);
         userInfoService.deleteUserInfo(userInfoId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(userInfo);
     }
 
 }

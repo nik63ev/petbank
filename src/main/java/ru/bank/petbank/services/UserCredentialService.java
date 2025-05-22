@@ -54,8 +54,14 @@ public class UserCredentialService {
     }
 
     @Transactional
-    public UserCredential updateUser(String userName, UserCredential updatedUserCredential) {
-        return userCredentialRepository.save(updatedUserCredential);
+    public RegisterResponse updateUser(UserCredential updatedUserCredential) {
+        userCredentialRepository.save(updatedUserCredential);
+        RegisterResponse registerResponse = new RegisterResponse();
+        registerResponse.setStatus(new Status());
+        registerResponse.getStatus().setMessage("Successfully updated");
+        registerResponse.getStatus().setCode(0);
+        registerResponse.setUserId(updatedUserCredential.getUserid());
+        return registerResponse;
     }
 
     @Transactional

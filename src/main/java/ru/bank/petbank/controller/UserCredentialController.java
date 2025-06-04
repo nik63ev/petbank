@@ -30,7 +30,7 @@ public class UserCredentialController {
         return ResponseEntity.ok(registerResponse);
     }
 
-    //        RegisterResponse registerResponse = userCredentialService.updateUser(userCredential);
+
     @PutMapping("/credential/{username}")
     public ResponseEntity<RegisterResponse> updateUser(@PathVariable String username,
                                                      @RequestBody RegisterRequest updateDTO) {

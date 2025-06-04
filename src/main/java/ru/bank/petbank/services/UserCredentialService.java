@@ -49,7 +49,7 @@ public class UserCredentialService {
         registerResponse.setStatus(new Status());
         registerResponse.getStatus().setMessage("Successfully registered");
         registerResponse.getStatus().setCode(0);
-        registerResponse.setUserId(userCredential.getUserid());
+        registerResponse.setUserId(userCredential.getUserId());
         return registerResponse;
     }
 
@@ -60,7 +60,7 @@ public class UserCredentialService {
         registerResponse.setStatus(new Status());
         registerResponse.getStatus().setMessage("Successfully updated");
         registerResponse.getStatus().setCode(0);
-        registerResponse.setUserId(updatedUserCredential.getUserid());
+        registerResponse.setUserId(updatedUserCredential.getUserId());
         return registerResponse;
     }
 

@@ -43,7 +43,7 @@ public class UserCredentialService {
         // Здесь нужно хэшировать пароль!
         UserCredential userCredential = new UserCredential(registerRequest.getUsername(),
                                                             registerRequest.getPassword(),
-                                                            registerRequest.getEmail());
+                                                            registerRequest.getEmail(), registerRequest.getUserInfoId());
         userCredentialRepository.save(userCredential);
         RegisterResponse registerResponse = new RegisterResponse();
         registerResponse.setStatus(new Status());

@@ -7,7 +7,7 @@ import ru.bank.petbank.model.UserInfo;
 import java.util.Optional;
 
 @Repository
-public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
+public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
     Optional<UserInfo> findByUserInfoId(Long userInfoId);
     boolean existsByPhone(String phone);
 

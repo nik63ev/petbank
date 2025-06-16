@@ -37,7 +37,7 @@ public class UserInfo {
     private Integer age;
 
     @Column(name = "gender", nullable = false)
-    private Gender gender;
+    private String gender;
 
     @Column(name = "phone", nullable = false)
     private String phone;
@@ -45,7 +45,7 @@ public class UserInfo {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "userInfoId", unique = true, nullable = false)
+    @Column(name = "user_info_id", unique = true, nullable = false)
     private Long userInfoId;
 
     public UserInfo(String surName, String name, String lastName, String dateOfBirth, Gender gender
@@ -55,7 +55,7 @@ public class UserInfo {
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.age = solveAge(dateOfBirth);
-        this.gender = gender;
+        this.gender = gender.toString();
         this.phone = phone;
         this.email = email;
         this.userInfoId = UUID.randomUUID().getMostSignificantBits();

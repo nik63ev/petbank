@@ -33,6 +33,9 @@ public class UserCredential {
     @Column(name = "userid", unique = true, nullable = false)
     private Long userId;
 
+    @Column(name = "user_info_id")
+    private Long userInfoId;
+
 //    @OneToOne(mappedBy = "userCredential", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 //    private UserInfo userInfo;
 
@@ -40,11 +43,12 @@ public class UserCredential {
 //                mappedBy = "userCredentialSes", fetch = FetchType.EAGER)
 //    private List<UserSession> sessionList;
 
-    public UserCredential(String username, String password, String email) {
+    public UserCredential(String username, String password, String email, Long userInfoId) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.userId = UUID.randomUUID().getMostSignificantBits();
+        this.userInfoId = userInfoId;
     }
 
     public UserCredential(){}

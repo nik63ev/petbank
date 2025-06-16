@@ -8,7 +8,6 @@ import ru.bank.petbank.model.UserCredential;
 import java.util.Optional;
 
 @Repository
-//@Component("userCredentialRepository")
 public interface UserCredentialRepository extends JpaRepository<UserCredential, Long> {
 
     boolean existsByUsername(String username);

@@ -10,7 +10,7 @@ public class UserAccounts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
-    private int id;
+    private Long id;
 
     @Column(name = "account_name")
     private String accountName;
@@ -21,8 +21,8 @@ public class UserAccounts {
     @Column(name = "balance")
     private double balance;
 
-    @Column(name = "limit")
-    private double limit;
+    @Column(name = "account_limit")
+    private double account_limit;
 
     @Column(name = "account_status")
     private String accountStatus;
@@ -30,10 +30,11 @@ public class UserAccounts {
     @Column(name = "user_info_id")
     private Long userInfoId;
 
-    public UserAccounts(AccountName accountName, String endPartAccountNumber, Long userInfoId) {
+    public UserAccounts(AccountName accountName, String accountNumber, Long userInfoId) {
         this.accountName = accountName.toString();
-        this.accountNumber = "3333 0063 " + endPartAccountNumber;
+        this.accountNumber = accountNumber;
         this.balance = 0.0d;
+        this.account_limit = 0.0d;
         this.accountStatus = AccountStatus.UNLOCKED.toString();
         this.userInfoId = userInfoId;
     }

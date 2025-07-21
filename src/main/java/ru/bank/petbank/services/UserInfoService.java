@@ -14,17 +14,12 @@ import java.util.Optional;
 
 @Service
 public class UserInfoService {
-
-    private final UserInfoRepository userInfoRepository;
-
     @Autowired
-    public UserInfoService(UserInfoRepository userInfoRepository) {
-        this.userInfoRepository = userInfoRepository;
-    }
+    private UserInfoRepository userInfoRepository;
 
     @Transactional
     public UserInfo getUserInfo(Long userInfoId) {
-        return userInfoRepository.findByUserInfoId(userInfoId)
+        return userInfoRepository.findUserInfoById(userInfoId)
                 .orElseThrow(() -> new RuntimeException("Information about the user is not found"));
     }
 
@@ -42,37 +37,41 @@ public class UserInfoService {
         createInfoResponse.setStatus(new Status());
         createInfoResponse.getStatus().setMessage("User info is successfully created");
         createInfoResponse.getStatus().setCode(0);
-        createInfoResponse.setUserInfoId(userInfoSaved.getUserInfoId());
+        createInfoResponse.setUserInfoId(userInfoSaved.getId());
         return createInfoResponse;
     }
 
     @Transactional
     public CreateInfoResponse updateUserInfo(Long userInfoId, CreateInfoRequest userInfo) {
-        UserInfo updateUserInfo = userInfoRepository.getUserInfoByUserInfoId(userInfoId);
+        UserInfo updateUserInfo = userInfoRepository.getUserInfoById(userInfoId);
+        CreateInfoResponse createInfoResponse = new CreateInfoResponse();
+        createInfoResponse.setStatus(new Status());
         if (updateUserInfo == null) {
             throw new RuntimeException("Information about the user is not found");
         }
         updateUserInfo.setSurName(userInfo.getSurname());
-        updateUserInfo.setSurName(userInfo.getName());
+        updateUserInfo.setName(userInfo.getName());
         updateUserInfo.setLastName(userInfo.getLastname());
         updateUserInfo.setPhone(userInfo.getPhone());
         updateUserInfo.setEmail(userInfo.getEmail());
+        System.out.println(updateUserInfo.getSurName());
         userInfoRepository.save(updateUserInfo);
-        CreateInfoResponse createInfoResponse = new CreateInfoResponse();
-        createInfoResponse.setStatus(new Status());
         createInfoResponse.getStatus().setMessage("User info is successfully updated");
         createInfoResponse.getStatus().setCode(0);
-        createInfoResponse.setUserInfoId(updateUserInfo.getUserInfoId());
+        createInfoResponse.setUserInfoId(updateUserInfo.getId());
         return createInfoResponse;
     }
 
     @Transactional
-    public UserInfo deleteUserInfo(Long userInfoId) {
-        Optional<UserInfo> userInfoOptional = userInfoRepository.findByUserInfoId(userInfoId);
+    public Optional<UserInfo> deleteUserInfo(Long userInfoId) {
+        Optional<UserInfo> userInfoOptional = userInfoRepository.findUserInfoById(userInfoId);
         if (userInfoOptional.isPresent()) {
             userInfoRepository.delete(userInfoOptional.get());
         }
+        else {
+            throw new RuntimeException("Information about the user accounts is not found");
+        }
 
-        return userInfoOptional.get();
+        return userInfoOptional;
     }
 }

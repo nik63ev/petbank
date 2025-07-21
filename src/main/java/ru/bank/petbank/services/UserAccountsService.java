@@ -7,7 +7,9 @@ import ru.bank.petbank.controller.CreateAccountRequest;
 import ru.bank.petbank.controller.CreateAccountResponse;
 import ru.bank.petbank.controller.Status;
 import ru.bank.petbank.model.UserAccounts;
+import ru.bank.petbank.model.UserInfo;
 import ru.bank.petbank.repository.UserAccountsRepository;
+import ru.bank.petbank.repository.UserInfoRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,14 +18,13 @@ import java.util.Random;
 @Service
 public class UserAccountsService {
     @Autowired
-    private final UserAccountsRepository userAccountsRepository;
-
-    UserAccountsService(final UserAccountsRepository userAccountsRepository) {
-        this.userAccountsRepository = userAccountsRepository;
-    }
+    private UserAccountsRepository userAccountsRepository;
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
     public Optional<List<UserAccounts>> getUserAccounts (Long userInfoId){
-        Optional<List<UserAccounts>> userAccounts = userAccountsRepository.getAllUserAccountsByUserInfoId(userInfoId);
+        UserInfo userInfo = userInfoRepository.getUserInfoById(userInfoId);
+        Optional<List<UserAccounts>> userAccounts = userAccountsRepository.getAllUserAccountsByUserInfo(userInfo);
         userAccounts.orElseThrow(() -> new RuntimeException("Information about the user accounts is not found"));
         return userAccounts;
     }
@@ -35,31 +36,37 @@ public class UserAccountsService {
             accountNumber = "3333 0063" + createEndPartAccountNumber();
         } while (userAccountsRepository.existsByAccountNumber(accountNumber));
 
-        UserAccounts userAccount = new UserAccounts(request.getAccountname(), accountNumber, request.getUserinfoID());
+        Optional<UserInfo> userInfo = userInfoRepository.findUserInfoById(request.getUserinfoID());
+        UserAccounts userAccount = new UserAccounts(request.getAccountname(), accountNumber, userInfo.get());
         System.out.println(userAccount);
         userAccountsRepository.save(userAccount);
         CreateAccountResponse response = new CreateAccountResponse();
         response.setStatus(new Status());
         response.getStatus().setMessage("Account created");
         response.getStatus().setCode(0);
-        response.setUserInfoId(userAccount.getUserInfoId());
+        response.setUserInfoId(userInfo.get());
         response.setAccountNumber(userAccount.getAccountNumber());
-        response.setAccountName(userAccount.getAccountName());
+        response.setAccountName(userAccount.getAccountName().toString());
         response.setBalance(userAccount.getBalance());
         return response;
     }
 
     @Transactional
     public UserAccounts getUserAccount (String accountNumber){
-        return userAccountsRepository.findUserAccountsByAccountNumber(accountNumber)
-                .orElseThrow(() -> new RuntimeException("Information about the user accounts is not found"));
+        Optional<UserAccounts> userAccounts = userAccountsRepository.findUserAccountsByAccountNumber(accountNumber);
+        if (userAccounts.isPresent()){
+            return userAccounts.get();
+        }
+        else return null;
     }
 
     @Transactional
-    public UserAccounts deleteUserAccount(String accountNumber){
-        Optional<UserAccounts> userAccounts = userAccountsRepository.findUserAccountsByAccountNumber(accountNumber);
+    public UserAccounts deleteUserAccount(Long accountId){
+        Optional<UserAccounts> userAccounts = userAccountsRepository.findUserAccountsById(accountId);
         if (userAccounts.isPresent()) {
-            userAccountsRepository.delete(userAccounts.get());
+            if (userAccounts.get().getBalance() != 0.0d){
+                throw new RuntimeException("Account balance must be zero");
+            } else { userAccountsRepository.delete(userAccounts.get());}
         }
         else {
             throw new RuntimeException("Information about the user accounts is not found");

@@ -2,8 +2,6 @@ package ru.bank.petbank.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Generated;
-import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -17,7 +15,7 @@ import java.util.UUID;
 public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_information_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "surname", nullable = false, length = 100)
@@ -29,24 +27,18 @@ public class UserInfo {
     @Column(name = "date_of_birth", nullable = false)
     private String dateOfBirth; //(dd.MM.yyyy)
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_credential_id")
-//    private UserCredential userCredential;
-
     @Column(name = "age")
     private Integer age;
 
     @Column(name = "gender", nullable = false)
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone",unique = true, nullable = false)
     private String phone;
 
     @Column(name = "email")
     private String email;
-
-    @Column(name = "user_info_id", unique = true, nullable = false)
-    private Long userInfoId;
 
     public UserInfo(String surName, String name, String lastName, String dateOfBirth, Gender gender
                     , String phone, String email) {
@@ -55,10 +47,11 @@ public class UserInfo {
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.age = solveAge(dateOfBirth);
-        this.gender = gender.toString();
+        this.gender = gender;
         this.phone = phone;
         this.email = email;
-        this.userInfoId = UUID.randomUUID().getMostSignificantBits();
+//        Long longUserId = UUID.randomUUID().getLeastSignificantBits();
+//        this.userInfoId = longUserId.toString();
     }
 
     private Integer solveAge(String dateOfBirth) {

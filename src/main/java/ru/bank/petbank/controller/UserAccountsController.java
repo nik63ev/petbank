@@ -21,7 +21,7 @@ public class UserAccountsController {
     }
 
     @GetMapping("/{userInfoId}")
-    public ResponseEntity<List<UserAccounts>> getUserAccounts(@PathVariable("userInfoId") Long userInfoId) {
+    public ResponseEntity<List<UserAccounts>> getUserAccounts(@PathVariable Long userInfoId) {
         Optional<List<UserAccounts>> userAccounts = userAccountsService.getUserAccounts(userInfoId);
         return ResponseEntity.ok(userAccounts.get());
     }
@@ -33,9 +33,13 @@ public class UserAccountsController {
         return ResponseEntity.ok(createAccountResponse);
     }
 
-    @DeleteMapping("/{account_number}")
-    public ResponseEntity<UserAccounts> deleteUserAccounts(@PathVariable("account_number") String accountNumber) {
-        UserAccounts userAccount = userAccountsService.deleteUserAccount(accountNumber);
-        return ResponseEntity.ok(userAccount);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<DeleteAccountResponse> deleteUserAccounts(@PathVariable Long id) {
+        UserAccounts userAccount = userAccountsService.deleteUserAccount(id);
+        DeleteAccountResponse deleteAccountResponse = new DeleteAccountResponse();
+        deleteAccountResponse.setAccountNumber(userAccount.getAccountNumber());
+        deleteAccountResponse.setAccountName(userAccount.getAccountName().toString());
+
+        return ResponseEntity.ok(deleteAccountResponse);
     }
 }

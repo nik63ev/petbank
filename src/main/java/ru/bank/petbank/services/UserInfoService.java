@@ -3,10 +3,9 @@ package ru.bank.petbank.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bank.petbank.controller.CreateInfoRequest;
-import ru.bank.petbank.controller.CreateInfoResponse;
-import ru.bank.petbank.controller.Status;
-import ru.bank.petbank.model.Gender;
+import ru.bank.petbank.DTO.CreateInfoRequest;
+import ru.bank.petbank.DTO.CreateInfoResponse;
+import ru.bank.petbank.DTO.Status;
 import ru.bank.petbank.model.UserInfo;
 import ru.bank.petbank.repository.UserInfoRepository;
 

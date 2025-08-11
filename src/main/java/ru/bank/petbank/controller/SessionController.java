@@ -3,6 +3,9 @@ package ru.bank.petbank.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.bank.petbank.DTO.AuthenticationRequest;
+import ru.bank.petbank.DTO.SessionRequest;
+import ru.bank.petbank.DTO.SessionResponse;
 import ru.bank.petbank.services.SessionService;
 
 @RestController

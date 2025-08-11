@@ -4,15 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bank.petbank.controller.AuthenticationRequest;
-import ru.bank.petbank.controller.SessionResponse;
-import ru.bank.petbank.controller.Status;
+import ru.bank.petbank.DTO.AuthenticationRequest;
+import ru.bank.petbank.DTO.SessionResponse;
+import ru.bank.petbank.DTO.Status;
 import ru.bank.petbank.model.UserCredential;
 import ru.bank.petbank.model.UserSession;
 import ru.bank.petbank.repository.UserCredentialRepository;
 import ru.bank.petbank.repository.UserSessionRepository;
 
-import java.util.LongSummaryStatistics;
 import java.util.Optional;
 
 @Service

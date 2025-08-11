@@ -3,9 +3,9 @@ package ru.bank.petbank.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bank.petbank.controller.CreateAccountRequest;
-import ru.bank.petbank.controller.CreateAccountResponse;
-import ru.bank.petbank.controller.Status;
+import ru.bank.petbank.DTO.CreateAccountRequest;
+import ru.bank.petbank.DTO.CreateAccountResponse;
+import ru.bank.petbank.DTO.Status;
 import ru.bank.petbank.model.UserAccounts;
 import ru.bank.petbank.model.UserInfo;
 import ru.bank.petbank.repository.UserAccountsRepository;
@@ -75,12 +75,13 @@ public class UserAccountsService {
     }
 
     private String createEndPartAccountNumber(){
-        String endPartAccountNumber = "";
+        StringBuilder endPartAccountNumber = new StringBuilder();
         Random rand = new Random();
         for (int i = 0; i < 2; i++) {
             int randomNum = 1000 + rand.nextInt(9000);
-            endPartAccountNumber = endPartAccountNumber + " " + String.valueOf(randomNum);
+            endPartAccountNumber.append(" ");
+            endPartAccountNumber.append(String.valueOf(randomNum));
         }
-        return endPartAccountNumber;
+        return endPartAccountNumber.toString();
     }
 }

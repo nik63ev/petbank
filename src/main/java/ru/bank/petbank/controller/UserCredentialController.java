@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.bank.petbank.exception.RegisterException;
+import ru.bank.petbank.DTO.RegisterRequest;
+import ru.bank.petbank.DTO.RegisterResponse;
 import ru.bank.petbank.model.UserCredential;
 import ru.bank.petbank.services.UserCredentialService;
 

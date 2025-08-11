@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.bank.petbank.DTO.CreateAccountRequest;
+import ru.bank.petbank.DTO.CreateAccountResponse;
+import ru.bank.petbank.DTO.DeleteAccountResponse;
 import ru.bank.petbank.model.UserAccounts;
 import ru.bank.petbank.services.UserAccountsService;
 
@@ -13,12 +16,9 @@ import java.util.Optional;
 @Controller
 @RequestMapping("api/accounts")
 public class UserAccountsController {
-    private final UserAccountsService userAccountsService;
 
     @Autowired
-    public UserAccountsController(UserAccountsService userAccountsService) {
-        this.userAccountsService = userAccountsService;
-    }
+    private UserAccountsService userAccountsService;
 
     @GetMapping("/{userInfoId}")
     public ResponseEntity<List<UserAccounts>> getUserAccounts(@PathVariable Long userInfoId) {

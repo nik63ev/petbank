@@ -2,9 +2,9 @@ package ru.bank.petbank.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.bank.petbank.controller.RegisterRequest;
-import ru.bank.petbank.controller.RegisterResponse;
-import ru.bank.petbank.controller.Status;
+import ru.bank.petbank.DTO.RegisterRequest;
+import ru.bank.petbank.DTO.RegisterResponse;
+import ru.bank.petbank.DTO.Status;
 import ru.bank.petbank.exception.RegisterException;
 import ru.bank.petbank.model.UserCredential;
 import ru.bank.petbank.repository.UserCredentialRepository;

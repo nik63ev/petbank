@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import ru.bank.petbank.controller.CommonResponse;
-import ru.bank.petbank.controller.RegisterResponse;
-import ru.bank.petbank.controller.Status;
+import ru.bank.petbank.DTO.CommonResponse;
+import ru.bank.petbank.DTO.RegisterResponse;
+import ru.bank.petbank.DTO.Status;
 
 @ControllerAdvice()
 public class GlobalExceptionHandler {
